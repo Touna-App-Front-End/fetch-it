@@ -1,5 +1,5 @@
 import 'isomorphic-fetch';
-
+import queryString from 'query-string';
 
 const DEFAULT_CONFIG = {};
 
@@ -24,7 +24,7 @@ class FetchIt {
         options.body = data;
       } else {
         try {
-          options.body = global.JSON.stringify(data);
+          options.body = queryString.stringify(data);
         } catch (e) {
           options.body = data;
         }

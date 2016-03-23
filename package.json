@@ -65,6 +65,7 @@
     "phantomjs": "^1.9.19",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
-    "webpack": "^1.12.11"
+    "webpack": "^1.12.11",
+    "query-string": "^3.0.3"
   }
 }
