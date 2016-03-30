@@ -1,2 +1,157 @@
-!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.fetchIt=t():e.fetchIt=t()}(this,function(){return function(e){function t(n){if(r[n])return r[n].exports;var o=r[n]={exports:{},id:n,loaded:!1};return e[n].call(o.exports,o,o.exports,t),o.loaded=!0,o.exports}var r={};return t.m=e,t.c=r,t.p="",t(0)}([function(e,t,r){(function(n){"use strict";function o(e){return e&&e.__esModule?e:{"default":e}}function i(e){if(Array.isArray(e)){for(var t=0,r=Array(e.length);t<e.length;t++)r[t]=e[t];return r}return Array.from(e)}function s(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}Object.defineProperty(t,"__esModule",{value:!0});var a=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}();r(1);var u=r(3),f=o(u),c={},h=function(){function e(t){s(this,e),this.config=t||c,this.middlewares=[]}return a(e,[{key:"_createRequest",value:function(e,t,r,o){if(!t&&!r&&!o)return new n.Request(e);var i=o||!t||t.body?"POST":"GET";if(t=Object.assign({},this.config,t||{}),t.method=r||t.method||i,o)if("string"==typeof o)t.body=o;else try{t.body=f["default"].stringify(o)}catch(s){t.body=o}return new n.Request(e,t)}},{key:"_request",value:function(e){var t=void 0;if(e instanceof n.Request)t=e;else{for(var r=arguments.length,o=Array(r>1?r-1:0),i=1;r>i;i++)o[i-1]=arguments[i];t=this._createRequest.apply(this,[e].concat(o))}var s=n.Promise.resolve(t),a=[n.fetch,void 0],u=!0,f=!1,c=void 0;try{for(var h,d=this.middlewares.reverse()[Symbol.iterator]();!(u=(h=d.next()).done);u=!0){var l=h.value;a.unshift(l.request,l.requestError),a.push(l.response,l.responseError)}}catch(p){f=!0,c=p}finally{try{!u&&d["return"]&&d["return"]()}finally{if(f)throw c}}for(;a.length;)s=s.then(a.shift(),a.shift());return s}},{key:"addMiddlewares",value:function(e){var t;(t=this.middlewares).push.apply(t,i(e))}},{key:"clearMiddlewares",value:function(){this.middlewares=[]}},{key:"fetch",value:function(e,t){return this._request(e,t)}},{key:"get",value:function(e,t){return this._request(e,t,"GET")}},{key:"post",value:function(e,t,r){return this._request(e,r,"POST",t)}},{key:"patch",value:function(e,t,r){return this._request(e,r,"PATCH",t)}},{key:"put",value:function(e,t,r){return this._request(e,r,"PUT",t)}},{key:"delete",value:function(e,t){return this._request(e,t,"DELETE")}},{key:"head",value:function(e,t){return this._request(e,t,"HEAD")}}]),e}(),d={response:function(e){return e.json()["catch"](function(e){return e})}},l=function(){function e(){s(this,e),this.instance=new h,this.middleware={jsonMiddleware:d}}return a(e,[{key:"create",value:function(e){return new h(e)}},{key:"addMiddlewares",value:function(e){this.instance.addMiddlewares(e)}},{key:"clearMiddlewares",value:function(){this.instance.clearMiddlewares()}},{key:"fetch",value:function(){var e;return(e=this.instance).fetch.apply(e,arguments)}},{key:"get",value:function(){var e;return(e=this.instance).get.apply(e,arguments)}},{key:"post",value:function(){var e;return(e=this.instance).post.apply(e,arguments)}},{key:"patch",value:function(){var e;return(e=this.instance).patch.apply(e,arguments)}},{key:"put",value:function(){var e;return(e=this.instance).put.apply(e,arguments)}},{key:"delete",value:function(){var e;return(e=this.instance)["delete"].apply(e,arguments)}},{key:"head",value:function(){var e;return(e=this.instance).head.apply(e,arguments)}}]),e}();t["default"]=new l,e.exports=t["default"]}).call(t,function(){return this}())},function(e,t,r){r(2),e.exports=self.fetch.bind(self)},function(e,t){!function(e){"use strict";function t(e){if("string"!=typeof e&&(e=String(e)),/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(e))throw new TypeError("Invalid character in header field name");return e.toLowerCase()}function r(e){return"string"!=typeof e&&(e=String(e)),e}function n(e){this.map={},e instanceof n?e.forEach(function(e,t){this.append(t,e)},this):e&&Object.getOwnPropertyNames(e).forEach(function(t){this.append(t,e[t])},this)}function o(e){return e.bodyUsed?Promise.reject(new TypeError("Already read")):void(e.bodyUsed=!0)}function i(e){return new Promise(function(t,r){e.onload=function(){t(e.result)},e.onerror=function(){r(e.error)}})}function s(e){var t=new FileReader;return t.readAsArrayBuffer(e),i(t)}function a(e){var t=new FileReader;return t.readAsText(e),i(t)}function u(){return this.bodyUsed=!1,this._initBody=function(e){if(this._bodyInit=e,"string"==typeof e)this._bodyText=e;else if(p.blob&&Blob.prototype.isPrototypeOf(e))this._bodyBlob=e;else if(p.formData&&FormData.prototype.isPrototypeOf(e))this._bodyFormData=e;else if(e){if(!p.arrayBuffer||!ArrayBuffer.prototype.isPrototypeOf(e))throw new Error("unsupported BodyInit type")}else this._bodyText="";this.headers.get("content-type")||("string"==typeof e?this.headers.set("content-type","text/plain;charset=UTF-8"):this._bodyBlob&&this._bodyBlob.type&&this.headers.set("content-type",this._bodyBlob.type))},p.blob?(this.blob=function(){var e=o(this);if(e)return e;if(this._bodyBlob)return Promise.resolve(this._bodyBlob);if(this._bodyFormData)throw new Error("could not read FormData body as blob");return Promise.resolve(new Blob([this._bodyText]))},this.arrayBuffer=function(){return this.blob().then(s)},this.text=function(){var e=o(this);if(e)return e;if(this._bodyBlob)return a(this._bodyBlob);if(this._bodyFormData)throw new Error("could not read FormData body as text");return Promise.resolve(this._bodyText)}):this.text=function(){var e=o(this);return e?e:Promise.resolve(this._bodyText)},p.formData&&(this.formData=function(){return this.text().then(h)}),this.json=function(){return this.text().then(JSON.parse)},this}function f(e){var t=e.toUpperCase();return y.indexOf(t)>-1?t:e}function c(e,t){t=t||{};var r=t.body;if(c.prototype.isPrototypeOf(e)){if(e.bodyUsed)throw new TypeError("Already read");this.url=e.url,this.credentials=e.credentials,t.headers||(this.headers=new n(e.headers)),this.method=e.method,this.mode=e.mode,r||(r=e._bodyInit,e.bodyUsed=!0)}else this.url=e;if(this.credentials=t.credentials||this.credentials||"omit",!t.headers&&this.headers||(this.headers=new n(t.headers)),this.method=f(t.method||this.method||"GET"),this.mode=t.mode||this.mode||null,this.referrer=null,("GET"===this.method||"HEAD"===this.method)&&r)throw new TypeError("Body not allowed for GET or HEAD requests");this._initBody(r)}function h(e){var t=new FormData;return e.trim().split("&").forEach(function(e){if(e){var r=e.split("="),n=r.shift().replace(/\+/g," "),o=r.join("=").replace(/\+/g," ");t.append(decodeURIComponent(n),decodeURIComponent(o))}}),t}function d(e){var t=new n,r=e.getAllResponseHeaders().trim().split("\n");return r.forEach(function(e){var r=e.trim().split(":"),n=r.shift().trim(),o=r.join(":").trim();t.append(n,o)}),t}function l(e,t){t||(t={}),this.type="default",this.status=t.status,this.ok=this.status>=200&&this.status<300,this.statusText=t.statusText,this.headers=t.headers instanceof n?t.headers:new n(t.headers),this.url=t.url||"",this._initBody(e)}if(!e.fetch){n.prototype.append=function(e,n){e=t(e),n=r(n);var o=this.map[e];o||(o=[],this.map[e]=o),o.push(n)},n.prototype["delete"]=function(e){delete this.map[t(e)]},n.prototype.get=function(e){var r=this.map[t(e)];return r?r[0]:null},n.prototype.getAll=function(e){return this.map[t(e)]||[]},n.prototype.has=function(e){return this.map.hasOwnProperty(t(e))},n.prototype.set=function(e,n){this.map[t(e)]=[r(n)]},n.prototype.forEach=function(e,t){Object.getOwnPropertyNames(this.map).forEach(function(r){this.map[r].forEach(function(n){e.call(t,n,r,this)},this)},this)};var p={blob:"FileReader"in e&&"Blob"in e&&function(){try{return new Blob,!0}catch(e){return!1}}(),formData:"FormData"in e,arrayBuffer:"ArrayBuffer"in e},y=["DELETE","GET","HEAD","OPTIONS","POST","PUT"];c.prototype.clone=function(){return new c(this)},u.call(c.prototype),u.call(l.prototype),l.prototype.clone=function(){return new l(this._bodyInit,{status:this.status,statusText:this.statusText,headers:new n(this.headers),url:this.url})},l.error=function(){var e=new l(null,{status:0,statusText:""});return e.type="error",e};var v=[301,302,303,307,308];l.redirect=function(e,t){if(-1===v.indexOf(t))throw new RangeError("Invalid status code");return new l(null,{status:t,headers:{location:e}})},e.Headers=n,e.Request=c,e.Response=l,e.fetch=function(e,t){return new Promise(function(r,n){function o(){return"responseURL"in s?s.responseURL:/^X-Request-URL:/m.test(s.getAllResponseHeaders())?s.getResponseHeader("X-Request-URL"):void 0}var i;i=c.prototype.isPrototypeOf(e)&&!t?e:new c(e,t);var s=new XMLHttpRequest;s.onload=function(){var e=1223===s.status?204:s.status;if(100>e||e>599)return void n(new TypeError("Network request failed"));var t={status:e,statusText:s.statusText,headers:d(s),url:o()},i="response"in s?s.response:s.responseText;r(new l(i,t))},s.onerror=function(){n(new TypeError("Network request failed"))},s.open(i.method,i.url,!0),"include"===i.credentials&&(s.withCredentials=!0),"responseType"in s&&p.blob&&(s.responseType="blob"),i.headers.forEach(function(e,t){s.setRequestHeader(t,e)}),s.send("undefined"==typeof i._bodyInit?null:i._bodyInit)})},e.fetch.polyfill=!0}}("undefined"!=typeof self?self:this)},function(e,t,r){"use strict";var n=r(4);t.extract=function(e){return e.split("?")[1]||""},t.parse=function(e){return"string"!=typeof e?{}:(e=e.trim().replace(/^(\?|#|&)/,""),e?e.split("&").reduce(function(e,t){var r=t.replace(/\+/g," ").split("="),n=r.shift(),o=r.length>0?r.join("="):void 0;return n=decodeURIComponent(n),o=void 0===o?null:decodeURIComponent(o),e.hasOwnProperty(n)?Array.isArray(e[n])?e[n].push(o):e[n]=[e[n],o]:e[n]=o,e},{}):{})},t.stringify=function(e){return e?Object.keys(e).sort().map(function(t){var r=e[t];return void 0===r?"":null===r?t:Array.isArray(r)?r.slice().sort().map(function(e){return n(t)+"="+n(e)}).join("&"):n(t)+"="+n(r)}).filter(function(e){return e.length>0}).join("&"):""}},function(e,t){"use strict";e.exports=function(e){return encodeURIComponent(e).replace(/[!'()*]/g,function(e){return"%"+e.charCodeAt(0).toString(16).toUpperCase()})}}])});
-//# sourceMappingURL=fetch-it.js.map
+import 'isomorphic-fetch';
+import queryString from 'query-string';
+
+const DEFAULT_CONFIG = {};
+
+
+class FetchIt {
+  constructor(config) {
+    this.config = config || DEFAULT_CONFIG;
+    this.middlewares = [];
+  }
+
+  _createRequest(url, options, method, data) {
+    if (!options && !method && !data) {
+      return new global.Request(url);
+    }
+
+    let defaultMethod = !data && (!!options && !options.body) ? 'GET' : 'POST';
+
+    options = Object.assign({}, this.config, options || {});
+    options.method = method || options.method || defaultMethod;
+    if (!!data) {
+      if (typeof data === 'string') {
+        options.body = data;
+      } else {
+        try {
+          options.body = queryString.stringify(data);
+        } catch (e) {
+          options.body = data;
+        }
+      }
+    }
+
+    return new global.Request(url, options);
+  }
+
+  _request(urlOrRequest, ...options) {
+    let request;
+    if (urlOrRequest instanceof global.Request) {
+      request = urlOrRequest;
+    } else {
+      request = this._createRequest(urlOrRequest, ...options);
+    }
+
+    let promise = global.Promise.resolve(request);
+    let chain = [global.fetch, undefined];
+
+    for (let middleware of this.middlewares.reverse()) {
+      chain.unshift(middleware.request, middleware.requestError);
+      chain.push(middleware.response, middleware.responseError);
+    }
+
+    while (!!chain.length) {
+      promise = promise.then(chain.shift(), chain.shift());
+    }
+
+    return promise;
+  }
+
+  addMiddlewares(middlewares) {
+    this.middlewares.push(...middlewares);
+  }
+
+  clearMiddlewares() {
+    this.middlewares = [];
+  }
+
+  fetch(url, options) {
+    return this._request(url, options);
+  }
+
+  get(url, options) {
+    return this._request(url, options, 'GET');
+  }
+
+  post(url, data, options) {
+    return this._request(url, options, 'POST', data);
+  }
+
+  patch(url, data, options) {
+    return this._request(url, options, 'PATCH', data);
+  }
+
+  put(url, data, options) {
+    return this._request(url, options, 'PUT', data);
+  }
+
+  delete(url, options) {
+    return this._request(url, options, 'DELETE');
+  }
+
+  head(url, options) {
+    return this._request(url, options, 'HEAD');
+  }
+}
+
+
+let jsonMiddleware = {
+  response(res) {
+    return res.json().catch((e) => {
+      return e;
+    });
+  }
+};
+
+
+class FetchItFactory {
+  constructor() {
+    this.instance = new FetchIt();
+    this.middleware = {
+      jsonMiddleware
+    };
+  }
+
+  create(config) {
+    return new FetchIt(config);
+  }
+
+  addMiddlewares(middlewares) {
+    this.instance.addMiddlewares(middlewares);
+  }
+
+  clearMiddlewares() {
+    this.instance.clearMiddlewares();
+  }
+
+  fetch(...args) {
+    return this.instance.fetch(...args);
+  }
+
+  get(...args) {
+    return this.instance.get(...args);
+  }
+
+  post(...args) {
+    return this.instance.post(...args);
+  }
+
+  patch(...args) {
+    return this.instance.patch(...args);
+  }
+
+  put(...args) {
+    return this.instance.put(...args);
+  }
+
+  delete(...args) {
+    return this.instance.delete(...args);
+  }
+
+  head(...args) {
+    return this.instance.head(...args);
+  }
+}
+
+
+export default new FetchItFactory();
